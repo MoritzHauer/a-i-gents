@@ -44,6 +44,22 @@ Produce valid Mermaid diagrams:
 
 Ensure clarity: descriptive node names, directional arrows, legend if needed. Use subgraphs to group logical layers.
 
+### Mandatory Mermaid Validation (MCP)
+All Mermaid diagrams MUST be validated using the Mermaid MCP server tool prior to inclusion:
+1. Call `mcp_mermaid-mcp_validate_and_render_mermaid_diagram` with both a short textual prompt (summary) and the raw Mermaid code.
+2. If the tool returns syntax or semantic errors, refine the diagram until validation succeeds.
+3. Only embed diagrams that have passed validation; never include broken Mermaid code.
+4. If architectural elements are inferred (not yet in code), prefix the diagram section with `Assumption:` and still validate syntax.
+5. After validation, include a small `Validation Notes:` list for any adjustments (renamed nodes, simplified flows, grouping changes).
+6. Maintain stable identifiers (node names, subgraph labels) across updates to assist drift detection.
+
+Style conventions during validation:
+- Use `flowchart LR` for structural or module/layer views unless a sequence is required.
+- Use `sequenceDiagram` only for lifecycle or interaction flows.
+- Keep node labels concise; introduce a legend for abbreviations when needed.
+- Employ `subgraph` blocks for logical layers (API, Services, Persistence, Frontend Rendering).
+- Prefer explicit arrow types (`-->`, `-->` with labels) to clarify data vs control flow.
+
 ## Task 3: Architecture Documentation Assembly
 Create or update `docs/Architecture.md` including sections:
 1. Overview & Goals
